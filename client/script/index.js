@@ -91,7 +91,7 @@ const inputField = document.querySelector('#inputField')
 const chatContainer = document.querySelector('.chat-container')
 
 const port = 3000
-const urlServerWs = `ws://localhost:${port}`
+const urlServerWs = `https://chat-k2jz.onrender.com`
 const chat = new Chat(urlServerWs)
 
 const login = new FormLogin(loginContainer, chatContainer, formLogin, inputField)
