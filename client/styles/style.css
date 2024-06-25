@@ -16,16 +16,19 @@ body {
 .chat-container {
   display: none;
   width: 90%;
+  min-width: 90%;
   max-width: 600px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex-direction: column;
+  align-items: center;
   height: 80vh;
   overflow: hidden;
 }
 
 .chat-header {
+  width: 90%;
   padding: 20px;
   background-color: #007bff;
   color: #fff;
@@ -35,23 +38,42 @@ body {
 }
 
 .chat-messages {
+  width: 90%;
   flex: 1;
   padding: 20px;
   overflow-y: auto;
   background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .message {
   padding: 10px;
+  margin-right: 50%;
   margin-bottom: 10px;
   background-color: #007bff;
   color: #fff;
   border-radius: 5px;
-  max-width: 80%;
+  width: 400px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.messageSelf {
+  margin-left: 50%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #4ff502;
+  color: #fff;
+  border-radius: 5px;
+  width: 400px;
+  max-width: 70%;
   word-wrap: break-word;
 }
 
 .chat-input {
+  width: 90%;
   display: flex;
   border-top: 1px solid #ddd;
 }

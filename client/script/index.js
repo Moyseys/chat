@@ -51,6 +51,15 @@ class Chat {
     const sendButton = document.getElementById('sendButton')
     const messageInput = document.getElementById('messageInput')
     const chatMessages = document.getElementById('chatMessages')
+
+    messageInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        const message = (messageInput.value).trim()
+        if (message) {
+          chat.sendMessage("message", message)
+        }
+      }
+    })
     sendButton.addEventListener('click', () => {
       const message = (messageInput.value).trim()
 
@@ -76,7 +85,11 @@ class Chat {
   processMessage(event) {
     const message = JSON.parse(event.data)
     const messageElement = document.createElement('div')
-    messageElement.classList.add('message')
+    if (message.userName === user.userName) {
+      messageElement.classList.add('messageSelf')
+    } else {
+      messageElement.classList.add('message')
+    }
     messageElement.textContent = `${message.userName} - ${message.text}`
     chatMessages.appendChild(messageElement)
     messageInput.value = ''
@@ -91,6 +104,8 @@ const inputField = document.querySelector('#inputField')
 const chatContainer = document.querySelector('.chat-container')
 
 const port = 3000
+//ws://localhost:3000
+//`https://chat-k2jz.onrender.com`
 const urlServerWs = `https://chat-k2jz.onrender.com`
 const chat = new Chat(urlServerWs)
 
