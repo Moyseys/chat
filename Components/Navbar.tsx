@@ -4,7 +4,7 @@ export default function navbar() {
   return (
     <Navbar>
       <NavbarBrand>
-        <p className="font-bold text-inherit">chat</p>
+        <p className="font-bold text-inherit">username</p>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>

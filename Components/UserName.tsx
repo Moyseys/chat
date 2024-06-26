@@ -3,6 +3,7 @@ import { User } from '../interface/types';
 import { Card, CardHeader, CardBody, Divider, Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
 import sty from "../styles/user.module.css";
+import { SendHorizontal } from 'lucide-react';
 
 interface FormLoginProps {
     setUser: React.Dispatch<React.SetStateAction<User>>;
@@ -23,15 +24,15 @@ const UserName: React.FC<FormLoginProps> = ({ setUser }) => {
         <div className={sty.container}>
             <Card className="max-w-[400px]">
                 <CardHeader className="flex gap-1">
-                    <div className="flex center">
+                    <div className="flex">
                         <p className="text-md">Enter your Username</p>
                     </div>
                 </CardHeader>
                 <Divider />
                 <CardBody>
-                    <form onSubmit={onSubmit}>
+                    <form className='flex items-center' onSubmit={onSubmit}>
                         <Input id="inputField" ref={inputFieldRef} type="text" label="Username" required />
-                        <Button color='primary' type="submit">Progress</Button>
+                        <Button variant="light" color="success" type="submit"><SendHorizontal /></Button>
                     </form>
                 </CardBody>
             </Card>

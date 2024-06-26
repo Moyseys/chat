@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { User, Message } from '../interface/types';
 import { Button, Input } from "@nextui-org/react";
 import { SendHorizontal } from 'lucide-react';
-import styles from "../styles/Chat.module.css";
+import styles from "../styles/chat.module.css";
 
 interface ChatProps {
   user: User;
@@ -15,24 +15,20 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
   const urlServerWs = 'wss://chat-k2jz.onrender.com';
 
   useEffect(() => {
-    try {
-      const websocket = new WebSocket(urlServerWs);
-      setWs(websocket);
+    const websocket = new WebSocket(urlServerWs);
+    setWs(websocket);
 
-      websocket.onopen = () => {
-        console.log('Conexão aberta com o servidor');
-      };
+    websocket.onopen = () => {
+      console.log('Conexão aberta com o servidor');
+    };
 
-      websocket.onmessage = (event) => {
-        processMessage(event);
-      };
+    websocket.onmessage = (event) => {
+      processMessage(event);
+    };
 
-      return () => {
-        websocket.close();
-      };
-    } catch (error) {
-      console.error('Erro ao conectar ao WebSocket:', error);
-    }
+    return () => {
+      websocket.close();
+    };
   }, []);
 
   const processMessage = (event: MessageEvent) => {
@@ -71,7 +67,7 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatMessages} id="chatMessages" ref={chatMessagesRef}></div>
-      
+
       <div className={styles.inputContainer}>
         <Input
           id="messageInput"

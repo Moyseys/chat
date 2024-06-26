@@ -3,8 +3,9 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: var(--background);
-    border-radius: 15px;
+    background-color: #e8e8e8;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     height: 100vh;
     position: relative;
 }
@@ -13,8 +14,9 @@
     width: 50%;
     flex: 1;
     overflow-y: auto;
-    background-color: var(--chatBackground);
+    background-color: #ffffff;
     padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 20px;
     margin-bottom: 5rem;
 }
@@ -33,14 +35,14 @@
 .message {
     padding: 5px;
     margin-bottom: 10px;
-    background-color: #e0e0e0;
+    background-color: #f700ff;
     border-radius: 4px;
 }
 
 .messageSelf {
     padding: 5px;
     margin-bottom: 20px;
-    background-color: #ffffff;
-    border-radius: 15px;
+    background-color: #ff6e1a;
+    border-radius: 4px;
     text-align: right;
 }
