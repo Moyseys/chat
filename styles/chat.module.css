@@ -3,9 +3,8 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #e8e8e8;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--background);
+    border-radius: 15px;
     height: 100vh;
     position: relative;
 }
@@ -14,9 +13,8 @@
     width: 50%;
     flex: 1;
     overflow-y: auto;
-    background-color: #ffffff;
+    background-color: var(--chatBackground);
     padding: 10px;
-    border: 1px solid #ddd;
     border-radius: 20px;
     margin-bottom: 5rem;
 }
@@ -42,7 +40,7 @@
 .messageSelf {
     padding: 5px;
     margin-bottom: 20px;
-    background-color: #d1ffd6;
-    border-radius: 4px;
+    background-color: #ffffff;
+    border-radius: 15px;
     text-align: right;
 }

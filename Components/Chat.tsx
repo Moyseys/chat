@@ -15,20 +15,24 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
   const urlServerWs = 'wss://chat-k2jz.onrender.com';
 
   useEffect(() => {
-    const websocket = new WebSocket(urlServerWs);
-    setWs(websocket);
+    try {
+      const websocket = new WebSocket(urlServerWs);
+      setWs(websocket);
 
-    websocket.onopen = () => {
-      console.log('Conexão aberta com o servidor');
-    };
+      websocket.onopen = () => {
+        console.log('Conexão aberta com o servidor');
+      };
 
-    websocket.onmessage = (event) => {
-      processMessage(event);
-    };
+      websocket.onmessage = (event) => {
+        processMessage(event);
+      };
 
-    return () => {
-      websocket.close();
-    };
+      return () => {
+        websocket.close();
+      };
+    } catch (error) {
+      console.error('Erro ao conectar ao WebSocket:', error);
+    }
   }, []);
 
   const processMessage = (event: MessageEvent) => {
