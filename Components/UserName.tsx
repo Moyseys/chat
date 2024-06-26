@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { User } from '../interface/types';
-import { Card, CardHeader, CardBody, Divider, Button } from "@nextui-org/react";
+import { Card, CardBody, Button } from "@nextui-org/react";
+import ChooseIcons from './ChooseIcons';
 import { Input } from "@nextui-org/input";
 import sty from "../styles/user.module.css";
 import { SendHorizontal } from 'lucide-react';
@@ -21,14 +22,10 @@ const UserName: React.FC<FormLoginProps> = ({ setUser }) => {
     };
 
     return (
+        <> 
         <div className={sty.container}>
-            <Card className="max-w-[400px]">
-                <CardHeader className="flex gap-1">
-                    <div className="flex">
-                        <p className="text-md">Enter your Username</p>
-                    </div>
-                </CardHeader>
-                <Divider />
+            <h1 className={sty.title}> chat </h1>
+            <Card className={sty.card}>
                 <CardBody>
                     <form className='flex items-center' onSubmit={onSubmit}>
                         <Input id="inputField" ref={inputFieldRef} type="text" label="Username" required />
@@ -36,7 +33,10 @@ const UserName: React.FC<FormLoginProps> = ({ setUser }) => {
                     </form>
                 </CardBody>
             </Card>
+        <ChooseIcons />
         </div>
+
+        </>
     );
 };
 

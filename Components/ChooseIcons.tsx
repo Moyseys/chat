@@ -1,9 +1,11 @@
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
-import { Bird, Origami, Dog, Rat, Snail } from 'lucide-react';
-import sty from "../styles/icons.module.css"
-export default function ChooseIcons() {
+import { useState } from "react";
+import { Card, CardBody } from "@nextui-org/react";
+import { Bird, Origami, Dog, Rat, Snail, Cat } from 'lucide-react';
+import sty from "../styles/icons.module.css";
 
-  const size = "30"
+export default function ChooseIcons() {
+  const [selectedIcon, setSelectedIcon] = useState(null);
+  const size = "30";
   const list = [
     {
       icon: <Bird size={size} />,
@@ -11,36 +13,47 @@ export default function ChooseIcons() {
     },
     {
       icon: <Origami size={size} />,
-      id: "papagaio",
+      id: "origami",
     },
     {
       icon: <Dog size={size} />,
-      id: "papagaio",
+      id: "dog",
     },
     {
       icon: <Rat size={size} />,
-      id: "papagaio",
+      id: "rat",
     },
     {
       icon: <Snail size={size} />,
-      id: "papagaio",
+      id: "snail",
+    },
+    {
+      icon: <Cat size={size} />,
+      id: "cat",
     },
   ];
 
+  const handleIconClick = (id:any) => {
+    setSelectedIcon(id);
+  };
+
   return (
-    <>
-      <div className={sty.container}>
-        {list.map((item, index) => (
-          <Card className={sty.iconCard} key={index} isPressable onPress={() => console.log("item pressed")}>
-            <CardBody className="overflow-visible p-0">
-              <div
-                className={sty.icon}>
-                {item.icon}
-              </div>
-            </CardBody>
-          </Card>
-        ))}
-      </div >
-    </>
+    <div className={sty.container}>
+      {list.map((item, index) => (
+        <Card
+          isPressable
+          isDisabled={selectedIcon === item.id}
+          className={sty.iconCard}
+          key={index}
+          onClick={() => handleIconClick(item.id)}
+        >
+          <CardBody className="overflow-visible p-0">
+            <div className={sty.icon}>
+              {item.icon}
+            </div>
+          </CardBody>
+        </Card>
+      ))}
+    </div>
   );
 }

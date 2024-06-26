@@ -4,6 +4,7 @@ import { Button, Input } from "@nextui-org/react";
 import { SendHorizontal } from 'lucide-react';
 import styles from "../styles/chat.module.css";
 
+
 interface ChatProps {
   user: User;
 }
@@ -22,8 +23,16 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
       console.log('Conexão aberta com o servidor');
     };
 
-    websocket.onmessage = (event) => {
-      processMessage(event);
+    websocket.onmessage = (e) => {
+      processMessage(e);
+    };
+
+    websocket.onerror = (error) => {
+      console.error('Erro no WebSocket:', error);
+    };
+
+    websocket.onclose = () => {
+      console.log('Conexão com o servidor encerrada');
     };
 
     return () => {
@@ -48,7 +57,9 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
   };
 
   const sendMessage = (type: string, text: string) => {
-    if (ws?.readyState !== WebSocket.OPEN) return console.log('A conexão deve ser iniciada!');
+    if (ws?.readyState !== WebSocket.OPEN) {
+      return console.log('A conexão deve ser iniciada!');
+    }
 
     const msg: Message = {
       userName: user.userName,
@@ -66,11 +77,9 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
 
   return (
     <div className={styles.chatContainer}>
-      <div className={styles.chatMessages} id="chatMessages" ref={chatMessagesRef}></div>
-
+      <div className={styles.chatMessages} ref={chatMessagesRef}></div>
       <div className={styles.inputContainer}>
         <Input
-          id="messageInput"
           ref={messageInputRef}
           fullWidth
           onKeyPress={(e) => {
@@ -81,9 +90,8 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
           }}
         />
         <Button
-          variant='flat'
+          
           color="success"
-          id="sendButton"
           onClick={() => {
             const message = messageInputRef.current?.value.trim();
             if (message) sendMessage('message', message);

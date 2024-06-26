@@ -22,3 +22,11 @@
   }
 }
 
+@font-face {
+  font-family: grotesk;
+  src: url(../public/font/OverusedGrotesk-Medium.woff);
+}
+
+*{
+  font-family: grotesk;
+}

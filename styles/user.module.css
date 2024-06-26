@@ -1,7 +1,15 @@
 .container{
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
     height: 100vh;
     width: 100%;
+}
+
+
+.title{
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
