@@ -1,8 +1,8 @@
-import ChooseIcons from '@/Components/ChooseIcons'
+import Loading from '@/Components/Loading'
 export default function Test(){
   return (
     <>
-    <ChooseIcons />
+    <Loading />
     </>
   )
 }

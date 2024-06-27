@@ -4,6 +4,7 @@ export interface User{
 }
 
 export interface Message{
+    message: ReactNode
     userName: string,
     type: string,
     text: string,

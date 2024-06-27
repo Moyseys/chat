@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { User } from '../interface/types';
 import { Card, CardBody, Button } from "@nextui-org/react";
 import ChooseIcons from './ChooseIcons';
@@ -13,11 +13,20 @@ interface FormLoginProps {
 const UserName: React.FC<FormLoginProps> = ({ setUser }) => {
     const inputFieldRef = useRef<HTMLInputElement | null>(null);
 
+    useEffect(()=>{
+        const storedUser = localStorage.getItem('chatUser')
+        if(storedUser){
+            setUser(JSON.parse(storedUser))
+        }
+    }, [setUser])
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const userName = inputFieldRef.current?.value.trim() || '';
         if (userName) {
-            setUser({ id: crypto.randomUUID(), userName });
+            const newUser: User = {id: crypto.randomUUID(), userName}
+            setUser(newUser);
+            localStorage.setItem('chatUser', JSON.stringify(newUser))
         }
     };
 
