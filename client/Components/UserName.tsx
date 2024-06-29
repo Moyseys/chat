@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { User } from '../interface/types';
 import { Card, CardBody, Button } from "@nextui-org/react";
 import ChooseIcons from './ChooseIcons';
@@ -12,10 +12,11 @@ interface FormLoginProps {
 
 const UserName: React.FC<FormLoginProps> = ({ setUser }) => {
     const inputFieldRef = useRef<HTMLInputElement | null>(null);
+    const [selectedIcon, setSelectedIcon] = useState("");
 
-    useEffect(()=>{
+    useEffect(() => {
         const storedUser = localStorage.getItem('chatUser')
-        if(storedUser){
+        if (storedUser) {
             setUser(JSON.parse(storedUser))
         }
     }, [setUser])
@@ -24,26 +25,26 @@ const UserName: React.FC<FormLoginProps> = ({ setUser }) => {
         e.preventDefault();
         const userName = inputFieldRef.current?.value.trim() || '';
         if (userName) {
-            const newUser: User = {id: crypto.randomUUID(), userName}
+            const newUser: User = { id: crypto.randomUUID(), userName, icon: selectedIcon }
             setUser(newUser);
             localStorage.setItem('chatUser', JSON.stringify(newUser))
         }
     };
 
     return (
-        <> 
-        <div className={sty.container}>
-            <h1 className={sty.title}> chat </h1>
-            <Card className={sty.card}>
-                <CardBody>
-                    <form className='flex items-center' onSubmit={onSubmit}>
-                        <Input id="inputField" ref={inputFieldRef} type="text" label="Username" required />
-                        <Button variant="light" color="success" type="submit"><SendHorizontal /></Button>
-                    </form>
-                </CardBody>
-            </Card>
-        <ChooseIcons />
-        </div>
+        <>
+            <div className={sty.container}>
+                <h1 className={sty.title}> chat </h1>
+                <Card className={sty.card}>
+                    <CardBody>
+                        <form className='flex items-center' onSubmit={onSubmit}>
+                            <Input id="inputField" ref={inputFieldRef} type="text" label="Username" required />
+                            <Button variant="light" color="success" type="submit"><SendHorizontal /></Button>
+                        </form>
+                    </CardBody>
+                </Card>
+                <ChooseIcons selectedIcon={selectedIcon} setSelectedIcon={setSelectedIcon} />
+            </div>
 
         </>
     );

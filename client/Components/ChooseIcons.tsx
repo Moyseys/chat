@@ -1,47 +1,22 @@
 import { useState } from "react";
 import { Card, CardBody } from "@nextui-org/react";
-import { Bird, Origami, Dog, Rat, Snail, Cat } from 'lucide-react';
 import sty from "../styles/icons.module.css";
+import listIcons from '@/utils/iconsArray';
 
-export default function ChooseIcons() {
-  const [selectedIcon, setSelectedIcon] = useState(null);
-  const size = "30";
-  const list = [
-    {
-      icon: <Bird size={size} />,
-      id: "papagaio",
-    },
-    {
-      icon: <Origami size={size} />,
-      id: "origami",
-    },
-    {
-      icon: <Dog size={size} />,
-      id: "dog",
-    },
-    {
-      icon: <Rat size={size} />,
-      id: "rat",
-    },
-    {
-      icon: <Snail size={size} />,
-      id: "snail",
-    },
-    {
-      icon: <Cat size={size} />,
-      id: "cat",
-    },
-  ];
+export default function ChooseIcons({ selectedIcon, setSelectedIcon }: { selectedIcon: any, setSelectedIcon: any }) {
 
-  const handleIconClick = (id:any) => {
+  const handleIconClick = (id: any) => {
     setSelectedIcon(id);
   };
 
   return (
     <div className={sty.container}>
-      {list.map((item, index) => (
+      {listIcons.map((item, index) => (
         <Card
           isPressable
+          isBlurred
+          isFooterBlurred
+          isHoverable
           isDisabled={selectedIcon === item.id}
           className={sty.iconCard}
           key={index}

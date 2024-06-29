@@ -21,6 +21,10 @@
     margin-bottom: 5rem;
 }
 
+.chatMessage{
+    margin: 1rem;
+}
+
 .inputContainer {
     display: flex;
     gap: 10px;
@@ -49,7 +53,6 @@
 .messageSelf {
     padding: 5px;
     margin: 1rem;
-    background-color: var(--green);
     border-radius: 15px;
     text-align: center;
     max-width: 30%;
@@ -60,4 +63,29 @@
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+.time{
+    margin-left: 0.2rem;
+}
+
+.myMessage {
+    align-self: flex-end; 
+    color: #5e5e5e;
+    transition: transform 0.3s ease-in-out;
+    border: solid 0px #5e5e5e00;
+
+}
+.myMessage:hover {
+    transform: scale(1.02);
+}
+
+
+.otherMessage {
+    background-color: #e4e4e4; 
+    align-self: flex-start; 
+    transition: transform 0.3s ease-in-out;
+}
+.otherMessage:hover {
+    transform: scale(1.02);
 }

@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Input, Popover, PopoverTrigger, PopoverContent} from "@nextui-org/react";
-import { SendHorizontal, MessageSquareOff  } from 'lucide-react';
+import { Button, Input } from "@nextui-org/react";
+import { SendHorizontal, MessageSquareOff } from 'lucide-react';
+import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import Loading from './Loading';
 import styles from "../styles/chat.module.css";
 import { User, Message } from '../interface/types';
+import listIcons from '@/utils/iconsArray';
+import * as lu from "lucide-react";
 
 interface ChatProps {
   user: {
@@ -13,6 +16,8 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = ({ user }) => {
   const [ws, setWs] = useState<WebSocket | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState("")
   const chatMessagesRef = useRef<HTMLDivElement | null>(null);
   const messageInputRef = useRef<HTMLInputElement | null>(null);
   const urlServerWs = 'wss://chat-k2jz.onrender.com';
@@ -49,30 +54,7 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
 
   const processMessage = (event: MessageEvent) => {
     const message: Message = JSON.parse(event.data);
-
-    const messageContainer = document.createElement('div');
-    messageContainer.classList.add(styles.messageContainer);
-
-    const userNameElement = document.createElement('div');
-    userNameElement.textContent = message.userName;
-    userNameElement.classList.add(styles.userName);
-
-    const textElement = document.createElement('div');
-    textElement.textContent = message.text;
-    textElement.classList.add(styles.messageText);
-
-    messageContainer.appendChild(userNameElement);
-    messageContainer.appendChild(textElement);
-
-    if (chatMessagesRef.current) {
-      if (message.userName === user.userName) {
-        messageContainer.classList.add(styles.messageSelf);
-      } else {
-        messageContainer.classList.add(styles.message);
-      }
-      chatMessagesRef.current.appendChild(messageContainer);
-      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
-    }
+    setMessages((prevMessages) => [...prevMessages, message]);
   };
 
   const sendMessage = (type: string, text: string) => {
@@ -80,6 +62,7 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
       const msg: Message = {
         userName: user.userName,
         type,
+        icon: user.icon,
         text,
         id: crypto.randomUUID(),
         date: Date.now(),
@@ -97,41 +80,83 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
     return <Loading />;
   }
 
-  const handleClearLocalStorage = () =>{
+  const handleClearLocalStorage = () => {
     localStorage.removeItem('chatUser');
-    window.location.reload()
-  }
+    window.location.reload();
+  };
+
+  const formatTime = (date) => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
   return (
-      <div className={styles.chatContainer}>
-        <Button  onClick={handleClearLocalStorage}
+    <div className={styles.chatContainer}>
+      <Button onClick={handleClearLocalStorage}
         color='danger'
         variant='flat'
         isIconOnly
         className={styles.buttonPosition}
-        >
-          <MessageSquareOff />
-        </Button>
-      <div className={styles.chatMessages} ref={chatMessagesRef}></div>
+      >
+        <MessageSquareOff />
+      </Button>
+      <div className={styles.chatMessages} ref={chatMessagesRef}>
+        {messages.map((message) => {
+          const mySelf = message.userName === user.userName;
+          return (
+            <Card key={message.id} className={`${styles.chatMessage} ${mySelf ? styles.myMessage : styles.otherMessage}`}>
+              <CardHeader className="flex gap-3">
+                {listIcons.map((icon) => {
+                  if (message.icon === icon.id) {
+                    return icon.icon;
+                  }
+                  return null;
+                })}
+                <div className="flex flex-col">
+                  {message.userName}
+                </div>
+              </CardHeader>
+              <CardBody>
+                {message.text}
+              </CardBody>
+              <CardFooter className="flex justify-end">
+                <lu.Clock10 size={15} />
+                <div className={styles.time}>
+                  {formatTime(new Date(message.date))}
+                </div>
+              </CardFooter>
+            </Card>
+          );
+        })}
+      </div>
       <div className={styles.inputContainer}>
         <Input
-          ref={messageInputRef}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           fullWidth
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              const message = e.currentTarget.value.trim();
-              if (message) sendMessage('message', message);
+              const message = inputValue.trim();
+              if (message) {
+                sendMessage('message', message);
+              }
+              setInputValue('')
             }
           }}
-        />
+/>
         <Button
           color="success"
           onClick={() => {
-            const message = messageInputRef.current?.value.trim();
-            if (message) sendMessage('message', message);
+            const message = inputValue.trim();
+            if (message) {
+              sendMessage('message', message)
+            }
+            setInputValue('')
           }}
         >
           <SendHorizontal size={15} />
-      </Button>
+        </Button>
       </div>
     </div>
   );
