@@ -6,6 +6,7 @@ export default function Loading() {
             <div className="loading">
                 <Spinner color="success" />
             </div>
+
         </>
     )
 }

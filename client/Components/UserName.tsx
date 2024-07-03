@@ -5,6 +5,7 @@ import ChooseIcons from './ChooseIcons';
 import { Input } from "@nextui-org/input";
 import sty from "../styles/user.module.css";
 import { SendHorizontal } from 'lucide-react';
+import Alert from "../services/Alert"
 
 interface FormLoginProps {
     setUser: React.Dispatch<React.SetStateAction<User>>;
@@ -23,6 +24,13 @@ const UserName: React.FC<FormLoginProps> = ({ setUser }) => {
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if(!selectedIcon){
+            console.log('nenhum icone selecionado')
+            Alert.send("Please select an animal before we go", false)
+            return
+        }
+
         const userName = inputFieldRef.current?.value.trim() || '';
         if (userName) {
             const newUser: User = { id: crypto.randomUUID(), userName, icon: selectedIcon }
@@ -38,8 +46,8 @@ const UserName: React.FC<FormLoginProps> = ({ setUser }) => {
                 <Card className={sty.card}>
                     <CardBody>
                         <form className='flex items-center' onSubmit={onSubmit}>
-                            <Input id="inputField" ref={inputFieldRef} type="text" label="Username" required />
-                            <Button variant="light" color="success" type="submit"><SendHorizontal /></Button>
+                            <Input isRequired id="inputField" ref={inputFieldRef} type="text" label="Username" required />
+                            <Button isIconOnly variant="light" color="success" type="submit"><SendHorizontal /></Button>
                         </form>
                     </CardBody>
                 </Card>

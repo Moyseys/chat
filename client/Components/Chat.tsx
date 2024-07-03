@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Input } from "@nextui-org/react";
-import { SendHorizontal, MessageSquareOff } from 'lucide-react';
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
+import {SendHorizontal, MessageSquareOff } from 'lucide-react';
+import {Input, Card, CardHeader, CardBody, CardFooter, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Loading from './Loading';
 import styles from "../styles/chat.module.css";
 import { User, Message } from '../interface/types';
@@ -10,6 +9,7 @@ import * as lu from "lucide-react";
 
 interface ChatProps {
   user: {
+    icon: any;
     userName: string;
   };
 }
@@ -22,6 +22,13 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
   const messageInputRef = useRef<HTMLInputElement | null>(null);
   const urlServerWs = 'wss://chat-k2jz.onrender.com';
   const [isLoading, setLoading] = useState(true);
+  const {isOpen, onOpen, onOpenChange} = useDisclosure()
+  const [backdrop, setBackdrop] = useState<'blur'>('blur')
+
+  const handleOpen = (backdrop:'blur') => {
+    setBackdrop(backdrop)
+    onOpen();
+  }
 
   useEffect(() => {
     const websocket = new WebSocket(urlServerWs);
@@ -52,6 +59,12 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if(chatMessagesRef.current){
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight
+    }
+  }, [messages])
+
   const processMessage = (event: MessageEvent) => {
     const message: Message = JSON.parse(event.data);
     setMessages((prevMessages) => [...prevMessages, message]);
@@ -59,7 +72,7 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
 
   const sendMessage = (type: string, text: string) => {
     if (ws?.readyState === WebSocket.OPEN) {
-      const msg: Message = {
+      const msg = {
         userName: user.userName,
         type,
         icon: user.icon,
@@ -83,9 +96,10 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
   const handleClearLocalStorage = () => {
     localStorage.removeItem('chatUser');
     window.location.reload();
+    setLoading(true)
   };
 
-  const formatTime = (date) => {
+  const formatTime = (date:any) => {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
@@ -93,14 +107,69 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
 
   return (
     <div className={styles.chatContainer}>
-      <Button onClick={handleClearLocalStorage}
+
+      <Button onPress={onOpen}
         color='danger'
         variant='flat'
         isIconOnly
         className={styles.buttonPosition}
       >
+
+    <Modal backdrop={backdrop} isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Close Chat</ModalHeader>
+              <ModalBody>
+                <p> 
+                  this action ll'log you out. 
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="flat" onPress={onClose}>
+                  Stay here
+                </Button>
+                <Button color="danger" variant='light' onClick={handleClearLocalStorage} onPress={onClose}>
+                  exit 
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
         <MessageSquareOff />
       </Button>
+
+      {/* <Button onPress={onOpen}
+        color='success'
+        variant='flat'
+        isIconOnly
+        className={styles.buttonPositionConfig}
+      >
+
+    <Modal backdrop={backdrop} isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Theme</ModalHeader>
+              <ModalBody>
+                <p> 
+                  
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="flat" onPress={onClose}>
+                  Apply
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <lu.Cog />
+      </Button>
+ */}
+
       <div className={styles.chatMessages} ref={chatMessagesRef}>
         {messages.map((message) => {
           const mySelf = message.userName === user.userName;
@@ -133,7 +202,7 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
       <div className={styles.inputContainer}>
         <Input
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => setInputValue((e.target as HTMLInputElement).value)}
           fullWidth
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
@@ -146,6 +215,7 @@ const Chat: React.FC<ChatProps> = ({ user }) => {
           }}
 />
         <Button
+          isIconOnly
           color="success"
           onClick={() => {
             const message = inputValue.trim();

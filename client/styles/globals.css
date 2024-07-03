@@ -14,6 +14,12 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
     --green: #A2E9C1;
+    --otherMessage: #FFFFFF;
+    --mainMessage:#d4d4d8;
+    --background: #d4d4d8;
+    --black: #2c2c2c;
+    --secondary: #f4f4f5;
+    --backgroundChat: #e4e4e7;
   }
 }
 
@@ -39,3 +45,4 @@
   height: 100vh;
   z-index: 1000;
 }
+

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [],
+    "lib": ["DOM", "ES2015"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
