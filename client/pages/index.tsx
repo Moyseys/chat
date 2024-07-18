@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import UserName from '../Components/UserName';
-import Chat from '../Components/Chat';
-import { User } from '../interface/types';
+import React, { useState } from 'react'
+import UserName from '../Components/UserName'
+import Chat from '../Components/Chat'
+import { User } from '../interface/types'
 
 const main: React.FC = () => {
-  const [user, setUser] = useState<User>({ id: '', userName: '', icon: '' });
+  const [user, setUser] = useState<User>({ id: '', userName: '', icon: '' })
 
   return (
     <>
@@ -14,7 +14,7 @@ const main: React.FC = () => {
         <Chat user={user} />
       )}
     </>
-  );
-};
+  )
+}
 
-export default main;
+export default main
