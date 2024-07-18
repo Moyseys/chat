@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: var(--background);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     height: 100vh;
@@ -14,9 +13,7 @@
     width: 50%;
     flex: 1;
     overflow-y: auto;
-    background-color: var(--backgroundChat);
     padding: 10px;
-    border: 1px solid #ddd;
     border-radius: 20px;
     margin-bottom: 5rem;
 }
@@ -70,6 +67,7 @@
     text-align: center;
     max-width: 30%;
     word-wrap: break-word;
+    background-color: var(--mainMessage);
 }
 
 .buttonPosition {
@@ -100,10 +98,30 @@
 }
 
 .otherMessage {
-    background-color:var(otherMessage); 
+    background-color:var(--otherMessage); 
     align-self: flex-start; 
     transition: transform 0.3s ease-in-out;
 }
 .otherMessage:hover {
     transform: scale(1.02);
+}
+
+@media (max-width:600px) {
+    .chatMessages {
+        margin-top: 3rem;
+        width: 100%;
+        padding: 1px;
+        margin-bottom: 5rem;
+    }
+
+    .inputContainer {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0 20px;
+    }
 }

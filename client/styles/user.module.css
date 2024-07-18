@@ -6,10 +6,38 @@
     width: 100%;
 }
 
+.containerFooter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
 
 .title{
     font-size: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+@media (max-width:600px) {
+    .title{
+        font-size: 1.5rem;
+    }
+
+    .container{
+        height: 100vh;
+        width: auto;
+    }
+
+    .input{
+        width: 100%;
+    }
+    
+
+    .card{
+        width: 100%;
+        margin: 0 auto;
+    }
 }

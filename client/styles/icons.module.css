@@ -6,7 +6,45 @@
   gap: 1rem;
 }
 
-.iconCard{
+.container {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.iconCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1.5rem;
+}
+
+.cardBody {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding: 0;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .container {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0;
+    display: grid;
+  }
+
+  
+.iconCard {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
 }
 
